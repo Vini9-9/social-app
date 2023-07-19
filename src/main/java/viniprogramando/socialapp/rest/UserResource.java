@@ -7,6 +7,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
@@ -40,6 +41,21 @@ public class UserResource {
     User user = User.findById(username);
     if(user != null){
       user.delete();
+      return Response.ok().build();
+    }
+    return Response.status(Status.NOT_FOUND).build();
+  }
+  @PUT
+  @QueryParam("{username")
+  @Transactional
+  public Response updateUser(@QueryParam("username") String username, CreateUserRequest userData) {
+    User user = User.findById(username);
+    if(user != null){
+      if(!username.equalsIgnoreCase(userData.getUsername())){
+        user.setUsername(userData.getUsername());
+      }
+      user.setBirthDate(userData.getBirthDate());
+      user.setEmail(userData.getEmail());
       return Response.ok().build();
     }
     return Response.status(Status.NOT_FOUND).build();

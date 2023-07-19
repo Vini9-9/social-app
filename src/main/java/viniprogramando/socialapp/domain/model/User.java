@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import viniprogramando.socialapp.exception.AlreadyExistsException;
 import viniprogramando.socialapp.exception.NotAllowedException;
 import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 
@@ -33,8 +34,7 @@ public class User extends PanacheEntityBase {
   public User(CreateUserRequest request) throws NotAllowedException {
     this.setUsername(request.getUsername());
     this.setEmail(request.getEmail());
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    this.setBirthDate(LocalDate.parse(request.getBirthDate(), dtf));
+    this.setBirthDate(request.getBirthDate());
   }
 
 
@@ -43,7 +43,12 @@ public class User extends PanacheEntityBase {
   }
 
   public void setUsername(String username) {
-    this.username = username;
+    User user = User.findById(username);
+    if(user != null){
+      throw new AlreadyExistsException("Username");
+    } else {
+      this.username = username;
+    }
   }
 
   public String getEmail() {
@@ -58,7 +63,9 @@ public class User extends PanacheEntityBase {
     return birthDate;
   }
 
-  public void setBirthDate(LocalDate birthDate) throws NotAllowedException {
+  public void setBirthDate(String birthDateStr) throws NotAllowedException {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDate birthDate = LocalDate.parse(birthDateStr, dtf);
     if(isOfLegalAge(birthDate)){
       this.birthDate = birthDate;
     } else {
