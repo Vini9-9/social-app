@@ -1,7 +1,10 @@
 package viniprogramando.socialapp.rest;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -21,6 +24,12 @@ public class UserResource {
   public Response createUser(CreateUserRequest request) {
       User user = new User(request);
       user.persist();
-      return Response.status(Status.CREATED).build();
+      return Response.status(Status.CREATED).entity(user).build();
   }
+  @GET
+  public Response listAllUsers() {
+    PanacheQuery<PanacheEntityBase> query = User.findAll();
+    return Response.ok(query.list()).build();
+  }
+
 }
