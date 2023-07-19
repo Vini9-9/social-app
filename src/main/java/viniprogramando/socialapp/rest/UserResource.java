@@ -1,11 +1,14 @@
 package viniprogramando.socialapp.rest;
 
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 
 @Path("/users")
@@ -14,8 +17,10 @@ import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 public class UserResource {
 
   @POST
+  @Transactional
   public Response createUser(CreateUserRequest request) {
-    return Response.ok("user created successfully").build();
+      User user = new User(request);
+      user.persist();
+      return Response.status(Status.CREATED).build();
   }
-
 }

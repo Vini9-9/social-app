@@ -1,12 +1,19 @@
 package viniprogramando.socialapp.domain.model;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import java.util.Date;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import viniprogramando.socialapp.exception.NotAllowedException;
+import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 
 @Entity
-public class User {
+@Table(name = "users")
+public class User extends PanacheEntityBase {
   @Id
   @Column(length = 30, nullable = false)
   private String username;
@@ -15,10 +22,20 @@ public class User {
   private String email;
 
   @Column(name = "birth_date")
-  private Date birthDate;
+  private LocalDate birthDate;
 
   @Column(name = "remaining_caracteres")
-  private Integer remainingCharacters;
+  private Integer remainingCharacters = 1000;
+
+  public User() {
+  }
+
+  public User(CreateUserRequest request) throws NotAllowedException {
+    this.setUsername(request.getUsername());
+    this.setEmail(request.getEmail());
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    this.setBirthDate(LocalDate.parse(request.getBirthDate(), dtf));
+  }
 
 
   public String getUsername() {
@@ -37,12 +54,16 @@ public class User {
     this.email = email;
   }
 
-  public Date getBirthDate() {
+  public LocalDate getBirthDate() {
     return birthDate;
   }
 
-  public void setBirthDate(Date birthDate) {
-    this.birthDate = birthDate;
+  public void setBirthDate(LocalDate birthDate) throws NotAllowedException {
+    if(isOfLegalAge(birthDate)){
+      this.birthDate = birthDate;
+    } else {
+      throw new NotAllowedException("user is not old enough");
+    }
   }
 
   public Integer getRemainingCharacters() {
@@ -51,6 +72,12 @@ public class User {
 
   public void setRemainingCharacters(Integer remainingCharacters) {
     this.remainingCharacters = remainingCharacters;
+  }
+
+  public boolean isOfLegalAge(LocalDate dateUser){
+    int legalAge = 16;
+    int age = Period.between(dateUser, LocalDate.now()).getYears();
+    return age >= legalAge;
   }
 
   @Override
