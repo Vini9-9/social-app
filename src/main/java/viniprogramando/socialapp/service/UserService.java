@@ -39,7 +39,11 @@ public class UserService {
         if(validChangeEmail(user.getEmail(), request.getEmail())) {
             user.setEmail(request.getEmail());
         }
-        user.setBirthDate(stringToLocalDate(request.getBirthDate()));
+        if(validChangeBirthDate(request.getBirthDate())){
+            user.setBirthDate(stringToLocalDate(request.getBirthDate()));
+        } else {
+            user.setBlocked(true);
+        }
         return new UserDtoResponse(user);
     }
 
@@ -58,6 +62,9 @@ public class UserService {
         } else {
             return true;
         }
+    }
+    private boolean validChangeBirthDate(String newBirthDate) {
+        return isOfLegalAge(stringToLocalDate(newBirthDate));
     }
 
     public boolean requestIsValid(CreateUserRequest request){

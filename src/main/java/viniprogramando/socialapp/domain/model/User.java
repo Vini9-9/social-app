@@ -28,6 +28,18 @@ public class User extends PanacheEntityBase {
 
   @Column(name = "remaining_characters")
   private Integer remainingCharacters = 1000;
+  private boolean blocked = false;
+
+  public boolean isBlocked() {
+    return blocked;
+  }
+
+  public void setBlocked(boolean blocked) {
+    this.blocked = blocked;
+    if (blocked) {
+      this.remainingCharacters = -1;
+    }
+  }
 
   public User() {
   }

@@ -11,13 +11,23 @@ public class UserDtoResponse {
   private String email;
   @JsonFormat(pattern = "dd/MM/yyyy")
   private LocalDate birthDate;
-  private Integer remainingCharacters = 1000;
+  private Integer remainingCharacters;
+  private boolean blocked;
 
   public UserDtoResponse(User user) {
     this.username = user.getUsername();
     this.email = user.getEmail();
     this.birthDate = user.getBirthDate();
     this.remainingCharacters = user.getRemainingCharacters();
+    this.blocked = user.isBlocked();
+  }
+
+  public boolean isBlocked() {
+    return blocked;
+  }
+
+  public void setBlocked(boolean blocked) {
+    this.blocked = blocked;
   }
 
   public String getUsername() {
