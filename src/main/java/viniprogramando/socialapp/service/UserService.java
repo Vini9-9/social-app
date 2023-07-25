@@ -3,10 +3,12 @@ package viniprogramando.socialapp.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.domain.repository.UserRepository;
 import viniprogramando.socialapp.exception.AlreadyExistsException;
 import viniprogramando.socialapp.exception.NotAllowedException;
+import viniprogramando.socialapp.exception.NotFoundException;
 import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 import viniprogramando.socialapp.rest.dto.UserDtoResponse;
 
@@ -29,8 +31,36 @@ public class UserService {
         userRepository.persist(user);
         return new UserDtoResponse(user);
     }
+    @Transactional
+    public UserDtoResponse updateUser(User user, CreateUserRequest request) throws Exception {
+        if(validChangeUsername(user.getUsername(), request.getUsername())) {
+            user.setUsername(request.getUsername());
+        }
+        if(validChangeEmail(user.getEmail(), request.getEmail())) {
+            user.setEmail(request.getEmail());
+        }
+        user.setBirthDate(stringToLocalDate(request.getBirthDate()));
+        return new UserDtoResponse(user);
+    }
 
-    public boolean userIsValid(CreateUserRequest request){
+    private boolean validChangeEmail(String oldEmail, String newEmail) {
+        User user = userRepository.findByEmail(newEmail);
+        if (user != null && !oldEmail.equalsIgnoreCase(newEmail)) {
+            throw new AlreadyExistsException("Email");
+        } else {
+            return true;
+        }
+    }
+    private boolean validChangeUsername(String oldUsername, String newUsername) {
+        User user = userRepository.findByUsername(newUsername);
+        if (user != null && !oldUsername.equalsIgnoreCase(newUsername)) {
+            throw new AlreadyExistsException("Username");
+        } else {
+            return true;
+        }
+    }
+
+    public boolean requestIsValid(CreateUserRequest request){
         return validEmail(request.getEmail()) &&
                 validUsername(request.getUsername()) &&
                 validBirthDate(request.getBirthDate());
