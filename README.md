@@ -1,5 +1,11 @@
 # social-app
 
+## Resources used:
+
+- Database Postgress
+- Java 11
+- Maven 3.9.3
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
