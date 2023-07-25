@@ -6,6 +6,13 @@
 - Java 11
 - Maven 3.9.3
 
+## Tasks
+
+- [X] CRUD
+- [X] Block user underage
+
+## About quarkus...
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
