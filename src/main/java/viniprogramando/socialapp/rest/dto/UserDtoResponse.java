@@ -1,10 +1,12 @@
 package viniprogramando.socialapp.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import viniprogramando.socialapp.domain.model.User;
 
 import java.time.LocalDate;
 
+@Data
 public class UserDtoResponse {
 
   private String username;
@@ -22,43 +24,4 @@ public class UserDtoResponse {
     this.blocked = user.isBlocked();
   }
 
-  public boolean isBlocked() {
-    return blocked;
-  }
-
-  public void setBlocked(boolean blocked) {
-    this.blocked = blocked;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public LocalDate getBirthDate() {
-    return birthDate;
-  }
-
-  public void setBirthDate(LocalDate birthDate) {
-    this.birthDate = birthDate;
-  }
-
-  public Integer getRemainingCharacters() {
-    return remainingCharacters;
-  }
-
-  public void setRemainingCharacters(Integer remainingCharacters) {
-    this.remainingCharacters = remainingCharacters;
-  }
 }
