@@ -3,12 +3,10 @@ package viniprogramando.socialapp.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.Response;
 import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.domain.repository.UserRepository;
 import viniprogramando.socialapp.exception.AlreadyExistsException;
 import viniprogramando.socialapp.exception.NotAllowedException;
-import viniprogramando.socialapp.exception.NotFoundException;
 import viniprogramando.socialapp.rest.dto.CreateUserRequest;
 import viniprogramando.socialapp.rest.dto.UserDtoResponse;
 
