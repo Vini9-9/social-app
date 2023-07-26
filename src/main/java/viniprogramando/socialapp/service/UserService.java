@@ -79,7 +79,7 @@ public class UserService {
         if(isOfLegalAge(stringToLocalDate(birthDateStr))){
             return true;
         } else {
-            throw new NotAllowedException("user is not old enough");
+            throw new NotAllowedException("age","user is not old enough");
         }
     }
 

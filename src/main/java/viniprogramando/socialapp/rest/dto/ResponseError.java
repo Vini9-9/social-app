@@ -38,6 +38,12 @@ public class ResponseError {
         return new ResponseError("Already exists error", errors);
     }
 
+    public static ResponseError createNotAllowed(String field, String reason) {
+        List<FieldError> errors = new ArrayList<FieldError>();
+        errors.add(new FieldError(field, reason));
+        return new ResponseError("Not Allowed error", errors);
+    }
+
     public Response withStatusCode(int code){
         return Response.status(code).entity(this).build();
     }
