@@ -37,11 +37,10 @@ public class UserService {
         if(validChangeEmail(user.getEmail(), request.getEmail())) {
             user.setEmail(request.getEmail());
         }
-        if(validChangeBirthDate(request.getBirthDate())){
-            user.setBirthDate(stringToLocalDate(request.getBirthDate()));
-        } else {
+        if(!validChangeBirthDate(request.getBirthDate())){
             user.setBlocked(true);
         }
+        user.setBirthDate(stringToLocalDate(request.getBirthDate()));
         return new UserDtoResponse(user);
     }
 
