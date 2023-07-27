@@ -13,10 +13,13 @@ import viniprogramando.socialapp.domain.repository.FollowRepository;
 import viniprogramando.socialapp.domain.repository.UserRepository;
 import viniprogramando.socialapp.rest.dto.FollowDtoResponse;
 import viniprogramando.socialapp.rest.dto.FollowRequest;
+import viniprogramando.socialapp.rest.dto.PostDtoResponse;
 import viniprogramando.socialapp.rest.dto.ResponseError;
 import viniprogramando.socialapp.service.FollowService;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Path("/users/{userId}/follow")
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,6 +66,18 @@ public class FollowResource {
       }
       return ResponseError.createNotFound("userId follows followerId")
               .withStatusCode(Response.Status.NOT_FOUND.getStatusCode());
-    }
+  }
+  @GET
+  public Response getAllFollowers (@PathParam("userId") Long userId) {
+      List<Follower> followers = followService.getAllFollowers(userId);
+      if(followers != null){
+        List<FollowDtoResponse> followersDto = followers.stream()
+                .map(FollowDtoResponse::new)
+                .collect(Collectors.toList());
+        return Response.ok(followersDto).build();
+      }
+      return ResponseError.createNotFound("userId")
+              .withStatusCode(Response.Status.NOT_FOUND.getStatusCode());
+  }
 
 }

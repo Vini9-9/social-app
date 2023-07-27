@@ -9,6 +9,7 @@ public class FollowRequest {
   @NotNull(message = "followerId is required")
   private Long followerId;
 
+  public FollowRequest() {}
   public FollowRequest(Long followerId) {
     this.followerId = followerId;
   }

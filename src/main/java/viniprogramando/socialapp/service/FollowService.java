@@ -8,6 +8,8 @@ import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.domain.repository.FollowRepository;
 import viniprogramando.socialapp.domain.repository.UserRepository;
 
+import java.util.List;
+
 @ApplicationScoped
 public class FollowService {
 
@@ -40,4 +42,7 @@ public class FollowService {
         return followRepository.deleteUserFollowsUser(userId, followerId) > 0;
     }
 
+    public List<Follower> getAllFollowers(Long userId) {
+        return followRepository.findAllByUserId(userId);
+    }
 }
