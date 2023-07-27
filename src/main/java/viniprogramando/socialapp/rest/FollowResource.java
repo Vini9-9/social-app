@@ -47,7 +47,7 @@ public class FollowResource {
     }
     Follower follower = followService.follow(userId, request.getFollowerId());
     if(follower != null){
-      return Response.status(Status.ACCEPTED).entity(new FollowDtoResponse(follower)).build();
+      return Response.status(Status.ACCEPTED).build();
     }
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
