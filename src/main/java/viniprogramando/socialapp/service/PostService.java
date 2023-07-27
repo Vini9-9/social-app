@@ -27,9 +27,15 @@ public class PostService {
         if(user.isBlocked()){
             return -1;
         }
-        int remainingChars = user.getRemainingCharacters() - request.getMessage().length();
-        return remainingChars;
+        return user.getRemainingCharacters() - request.getMessage().length();
+    }
+    public int getNewRemainingChars(CreatePostRequest request, User user, int lengthOldPost) {
+        return user.getRemainingCharacters() + lengthOldPost - request.getMessage().length();
     }
 
-
+    @Transactional
+    public void deletePost(Post post, User user) {
+        user.setRemainingCharacters(user.getRemainingCharacters() + post.getText().length());
+        postRepository.delete(post);
+    }
 }

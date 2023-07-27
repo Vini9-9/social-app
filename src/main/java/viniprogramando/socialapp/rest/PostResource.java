@@ -73,8 +73,8 @@ public class PostResource {
   public Response deletePost (@PathParam("userId") Long userId, @PathParam("postId") Long postId){
     Post post = postRepository.findByIdAndUserId(postId, userId);
     if(post != null){
-      postRepository.delete(post);
-      return Response.noContent().build();
+      User user = userRepository.findById(userId);
+      postService.deletePost(post, user);
     }
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
@@ -95,6 +95,33 @@ public class PostResource {
     if(!posts.isEmpty()){
       List<PostDtoResponse> postsDto = posts.stream().map(PostDtoResponse::new).collect(Collectors.toList());
       return Response.ok(postsDto).build();
+    }
+    return ResponseError.createNotFound("id")
+            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+  }
+  @PUT
+  @Path("{postId}")
+  @Transactional
+  public Response updatePost (@PathParam("userId") Long userId,
+                              @PathParam("postId") Long postId,
+                              CreatePostRequest request){
+    User user = userRepository.findById(userId);
+    if(user != null){
+        Post post = postRepository.findByIdAndUserId(postId, userId);
+      int remainingChars = postService.getNewRemainingChars(request, user, post.getText().length());
+      if(remainingChars > 0){
+        post.setText(request.getMessage());
+        user.setRemainingCharacters(remainingChars);
+        userRepository.persist(user);
+        postRepository.persist(post);
+      return Response.ok(new PostDtoResponse(post)).build();
+      } else {
+        return ResponseError
+                .createNotAllowed(
+                        "remainingCharacters",
+                        "You have reached your daily limit of characters")
+                .withStatusCode(Status.METHOD_NOT_ALLOWED.getStatusCode());
+      }
     }
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
