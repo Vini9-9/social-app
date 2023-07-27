@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "adfb62f8-4680-490f-a824-0d23a4d5e2e1",
+		"name": "social-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "18303458"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "create Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"message\": \"Keti, quer casar comigo?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/users/3/posts"
+					},
+					"response": []
+				},
+				{
+					"name": "update Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"amo a ketilen\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/users/3/posts/5"
+					},
+					"response": []
+				},
+				{
+					"name": "get all posts userId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseURL}}/users/3/posts"
+					},
+					"response": []
+				},
+				{
+					"name": "delete post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseURL}}/users/4/posts/3"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"the-creator\",\r\n    \"email\": \"creator@email.com\",\r\n    \"birthDate\": \"01/01/1900\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"birthDate\": \"18/09/2018\",\r\n\t\"email\": \"nelitek@email.com\",\r\n\t\"username\": \"nelitek\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseURL}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseURL}}/users/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "follow",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"followerId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseURL}}/users/3/follower"
+					},
+					"response": []
+				},
+				{
+					"name": "get followers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseURL}}/users/3/follower"
+					},
+					"response": []
+				},
+				{
+					"name": "get followings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseURL}}/users/2/following"
+					},
+					"response": []
+				},
+				{
+					"name": "unfollow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/3/follower?followerId=2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"3",
+								"follower"
+							],
+							"query": [
+								{
+									"key": "followerId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

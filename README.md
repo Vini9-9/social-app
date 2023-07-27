@@ -6,6 +6,8 @@
 - Java 11
 - Maven 3.9.3
 
+Use [this](/collection-postman/social-app.postman_collection.json) template postman collection 
+
 ## Tasks
 
 - [X] CRUD Users
