@@ -8,8 +8,11 @@
 
 ## Tasks
 
-- [X] CRUD
+- [X] CRUD Users
+- [X] CRUD Posts
+- [X] CRUD Followers
 - [X] Block user underage
+- [X] See who follow back
 
 ## About quarkus...
 
