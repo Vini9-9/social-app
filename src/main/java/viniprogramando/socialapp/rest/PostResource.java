@@ -64,4 +64,17 @@ public class PostResource {
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
   }
+
+  @DELETE
+  @Path("{postId}")
+  @Transactional
+  public Response deletePost (@PathParam("userId") Long userId, @PathParam("postId") Long postId){
+    Post post = postRepository.findByIdAndUserId(postId, userId);
+    if(post != null){
+      postRepository.delete(post);
+      return Response.noContent().build();
+    }
+    return ResponseError.createNotFound("id")
+            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+  }
 }
