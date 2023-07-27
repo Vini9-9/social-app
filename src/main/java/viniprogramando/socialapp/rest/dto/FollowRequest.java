@@ -1,6 +1,5 @@
 package viniprogramando.socialapp.rest.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -10,4 +9,7 @@ public class FollowRequest {
   @NotNull(message = "followerId is required")
   private Long followerId;
 
+  public FollowRequest(Long followerId) {
+    this.followerId = followerId;
+  }
 }

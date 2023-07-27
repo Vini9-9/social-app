@@ -36,4 +36,8 @@ public class FollowService {
     }
 
 
+    public boolean unfollow(Long userId, Long followerId) {
+        return followRepository.deleteUserFollowsUser(userId, followerId) > 0;
+    }
+
 }

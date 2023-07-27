@@ -9,17 +9,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import viniprogramando.socialapp.domain.model.Follower;
-import viniprogramando.socialapp.domain.model.Post;
-import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.domain.repository.FollowRepository;
 import viniprogramando.socialapp.domain.repository.UserRepository;
 import viniprogramando.socialapp.rest.dto.FollowDtoResponse;
 import viniprogramando.socialapp.rest.dto.FollowRequest;
-import viniprogramando.socialapp.rest.dto.PostDtoResponse;
 import viniprogramando.socialapp.rest.dto.ResponseError;
 import viniprogramando.socialapp.service.FollowService;
-import viniprogramando.socialapp.service.PostService;
-import viniprogramando.socialapp.service.UserService;
 
 import java.util.Set;
 
@@ -54,5 +49,20 @@ public class FollowResource {
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
   }
+
+  @DELETE
+  @Transactional
+  public Response unfollow (@PathParam("userId") Long userId, @QueryParam("followerId") Long followerId) {
+    Set<ConstraintViolation<FollowRequest>> violations = validator.validate(new FollowRequest(followerId));
+    if(!violations.isEmpty()){
+      return ResponseError.createFromValidation(violations)
+              .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY);
+    }
+      if(followService.unfollow(userId, followerId)){
+        return Response.noContent().build();
+      }
+      return ResponseError.createNotFound("userId follows followerId")
+              .withStatusCode(Response.Status.NOT_FOUND.getStatusCode());
+    }
 
 }
