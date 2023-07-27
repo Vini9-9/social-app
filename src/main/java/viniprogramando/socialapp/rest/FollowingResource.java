@@ -6,7 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import viniprogramando.socialapp.domain.model.Follower;
-import viniprogramando.socialapp.rest.dto.FollowDtoResponse;
+import viniprogramando.socialapp.rest.dto.FollowingDtoResponse;
 import viniprogramando.socialapp.rest.dto.ResponseError;
 import viniprogramando.socialapp.service.FollowService;
 
@@ -26,8 +26,8 @@ public class FollowingResource {
   public Response getAllFollowing (@PathParam("userId") Long userId) {
       List<Follower> followings = followService.getAllFollowing(userId);
       if(followings != null){
-        List<FollowDtoResponse> followingsDto = followings.stream()
-                .map(FollowDtoResponse::new)
+        List<FollowingDtoResponse> followingsDto = followings.stream()
+                .map(FollowingDtoResponse::new)
                 .collect(Collectors.toList());
         return Response.ok(followingsDto).build();
       }

@@ -7,18 +7,18 @@ import viniprogramando.socialapp.domain.model.Follower;
 public class FollowDtoResponse {
 
     private Long id;
-    private String name;
+    private String username;
 
     public FollowDtoResponse() {
     }
 
     public FollowDtoResponse(Follower follower){
-        this(follower.getId(), follower.getFollower().getUsername());
+        this(follower.getUser().getId(), follower.getUser().getUsername());
     }
 
-    public FollowDtoResponse(Long id, String name) {
+    public FollowDtoResponse(Long id, String username) {
         this.id = id;
-        this.name = name;
+        this.username = username;
     }
 
 }
