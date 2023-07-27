@@ -27,7 +27,7 @@ public class FollowingResource {
       List<Follower> followings = followService.getAllFollowing(userId);
       if(followings != null){
         List<FollowingDtoResponse> followingsDto = followings.stream()
-                .map(FollowingDtoResponse::new)
+                .map(user -> new FollowingDtoResponse(user, followService.isUserFollowBack(userId, user.getFollower().getId())))
                 .collect(Collectors.toList());
         return Response.ok(followingsDto).build();
       }

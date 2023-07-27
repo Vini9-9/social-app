@@ -49,4 +49,8 @@ public class FollowService {
     public List<Follower> getAllFollowing(Long userId) {
         return followRepository.findAllFollowing(userId);
     }
+
+    public boolean isUserFollowBack(Long userId, Long idFollower) {
+        return followRepository.isFollowsUser(idFollower, userId);
+    }
 }
