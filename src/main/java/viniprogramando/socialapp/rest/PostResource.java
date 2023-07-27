@@ -16,7 +16,9 @@ import viniprogramando.socialapp.rest.dto.*;
 import viniprogramando.socialapp.service.PostService;
 import viniprogramando.socialapp.service.UserService;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Path("/users/{userId}/posts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -73,6 +75,26 @@ public class PostResource {
     if(post != null){
       postRepository.delete(post);
       return Response.noContent().build();
+    }
+    return ResponseError.createNotFound("id")
+            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+  }
+  @GET
+  @Path("{postId}")
+  public Response getPostsByUser (@PathParam("userId") Long userId, @PathParam("postId") Long postId){
+    Post post = postRepository.findByIdAndUserId(postId, userId);
+    if(post != null){
+      return Response.ok(new PostDtoResponse(post)).build();
+    }
+    return ResponseError.createNotFound("id")
+            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+  }
+  @GET
+  public Response getAllPostsByUser (@PathParam("userId") Long userId){
+    List<Post> posts = postRepository.findAllByUserId(userId);
+    if(!posts.isEmpty()){
+      List<PostDtoResponse> postsDto = posts.stream().map(PostDtoResponse::new).collect(Collectors.toList());
+      return Response.ok(postsDto).build();
     }
     return ResponseError.createNotFound("id")
             .withStatusCode(Status.NOT_FOUND.getStatusCode());
