@@ -14,6 +14,11 @@ CREATE TABLE posts (
     id BIGSERIAL PRIMARY KEY,
     text VARCHAR(250) NOT NULL,
     dateTime TIMESTAMP,
-    user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    user_id BIGSERIAL REFERENCES users (id)
+);
+
+CREATE TABLE followers (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGSERIAL NOT NULL REFERENCES users(ID),
+    follower_id BIGSERIAL NOT NULL REFERENCES users(ID)
 );
