@@ -19,9 +19,15 @@ public class Follower extends PanacheEntityBase {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "follower_id")
   private User follower;
 
 
+  public Follower() {
+  }
+  public Follower(User user, User userFollower) {
+    this.user = user;
+    this.follower = userFollower;
+  }
 }
 
