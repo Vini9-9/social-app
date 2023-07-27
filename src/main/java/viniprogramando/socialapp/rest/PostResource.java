@@ -75,6 +75,7 @@ public class PostResource {
     if(post != null){
       User user = userRepository.findById(userId);
       postService.deletePost(post, user);
+      return Response.noContent().build();
     }
     return postService.createNotFoundResponse(postId);
   }
