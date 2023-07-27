@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Path("/users/{userId}/follow")
+@Path("/users/{userId}/follower")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class FollowResource {

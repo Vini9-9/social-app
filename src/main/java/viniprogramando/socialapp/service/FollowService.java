@@ -43,6 +43,10 @@ public class FollowService {
     }
 
     public List<Follower> getAllFollowers(Long userId) {
-        return followRepository.findAllByUserId(userId);
+        return followRepository.findAllFollowers(userId);
+    }
+
+    public List<Follower> getAllFollowing(Long userId) {
+        return followRepository.findAllFollowing(userId);
     }
 }

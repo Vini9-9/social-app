@@ -15,7 +15,10 @@ public class FollowRepository implements PanacheRepository<Follower> {
                 Parameters.with("userId", userId).and("followerId", followerId));
     }
 
-    public List<Follower> findAllByUserId(Long userId) {
+    public List<Follower> findAllFollowers(Long userId) {
+        return find("follower.id", userId).list();
+    }
+    public List<Follower> findAllFollowing(Long userId) {
         return find("user.id", userId).list();
     }
 
