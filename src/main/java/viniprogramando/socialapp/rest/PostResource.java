@@ -76,8 +76,7 @@ public class PostResource {
       User user = userRepository.findById(userId);
       postService.deletePost(post, user);
     }
-    return ResponseError.createNotFound("id")
-            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+    return postService.createNotFoundResponse(postId);
   }
   @GET
   @Path("{postId}")
@@ -86,8 +85,7 @@ public class PostResource {
     if(post != null){
       return Response.ok(new PostDtoResponse(post)).build();
     }
-    return ResponseError.createNotFound("id")
-            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+    return postService.createNotFoundResponse(postId);
   }
   @GET
   public Response getAllPostsByUser (@PathParam("userId") Long userId){
@@ -123,7 +121,6 @@ public class PostResource {
                 .withStatusCode(Status.METHOD_NOT_ALLOWED.getStatusCode());
       }
     }
-    return ResponseError.createNotFound("id")
-            .withStatusCode(Status.NOT_FOUND.getStatusCode());
+    return postService.createNotFoundResponse(postId);
   }
 }

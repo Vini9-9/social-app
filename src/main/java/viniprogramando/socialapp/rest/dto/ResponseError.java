@@ -29,7 +29,7 @@ public class ResponseError {
     }
     public static <T> ResponseError createNotFound(String field){
         List<FieldError> errors = new ArrayList<FieldError>();
-        errors.add(new FieldError(field, "Not found user with this " + field));
+        errors.add(new FieldError(field, "Not found this " + field));
         return new ResponseError("Not found error", errors);
     }
     public static <T> ResponseError createAlreadyExists(String field){

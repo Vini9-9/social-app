@@ -3,10 +3,12 @@ package viniprogramando.socialapp.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 import viniprogramando.socialapp.domain.model.Post;
 import viniprogramando.socialapp.domain.model.User;
 import viniprogramando.socialapp.domain.repository.PostRepository;
 import viniprogramando.socialapp.rest.dto.CreatePostRequest;
+import viniprogramando.socialapp.rest.dto.ResponseError;
 
 @ApplicationScoped
 public class PostService {
@@ -37,5 +39,14 @@ public class PostService {
     public void deletePost(Post post, User user) {
         user.setRemainingCharacters(user.getRemainingCharacters() + post.getText().length());
         postRepository.delete(post);
+    }
+
+    public Response createNotFoundResponse(Long postId) {
+        if(postRepository.findByIdOptional(postId).isEmpty()){
+            return ResponseError.createNotFound("userId")
+                    .withStatusCode(Response.Status.NOT_FOUND.getStatusCode());
+        }
+        return ResponseError.createNotFound("postId")
+                .withStatusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 }
