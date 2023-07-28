@@ -81,7 +81,7 @@ public class PostResource {
   }
   @GET
   @Path("{postId}")
-  public Response getPostsByUser (@PathParam("userId") Long userId, @PathParam("postId") Long postId){
+  public Response getPostByPostId (@PathParam("userId") Long userId, @PathParam("postId") Long postId){
     Post post = postRepository.findByIdAndUserId(postId, userId);
     if(post != null){
       return Response.ok(new PostDtoResponse(post)).build();
