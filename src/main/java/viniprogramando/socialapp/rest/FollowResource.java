@@ -45,6 +45,11 @@ public class FollowResource {
       return ResponseError.createFromValidation(violations)
               .withStatusCode(ResponseError.UNPROCESSABLE_ENTITY);
     }
+    if(userId == request.getFollowerId()){
+      return ResponseError
+              .createNotAllowed("followerId", "FollowerId must be different from userId")
+              .withStatusCode(Status.CONFLICT.getStatusCode());
+    }
     Follower follower = followService.follow(userId, request.getFollowerId());
     if(follower != null){
       return Response.status(Status.ACCEPTED).build();
